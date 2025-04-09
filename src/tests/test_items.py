@@ -49,7 +49,3 @@ class TestItems:
 
         response = auth_session.delete(f"{BASE_URL}/api/v1/items/{item_id}")
         assert response.status_code == 200, "Запись не удалена"
-
-
-
-
