@@ -31,10 +31,13 @@
 ```shell
    pip install faker
 ```
-
+- Установить пакет dotenv
+```shell
+   pip install python-dotenv
+```
 
 ## Запуск тестов:
 #### Выполнить команду:
 ```shell
-   pytest
+   pytest tests
 ```
