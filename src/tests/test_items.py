@@ -1,33 +1,16 @@
-from src.config.constant import BASE_URL
+from src.api import api_class
+from src.api.api_class import ApiClass
+from src.tests.constant import BASE_URL
+import src.api.api_class
 
 
 class TestItems:
 
-    def test_create_item(self, item_data, auth_session):
-        response = auth_session.post(f"{BASE_URL}/api/v1/items/", json=item_data)
-        assert response.status_code in (200, 201), f"Response: {response.status_code}, {response.text}"
-
-        data = response.json()
-        item_id = data.get("id")
-        assert item_id is not None
-        assert data.get("title") == item_data["title"]
-
-        self.created_item_id = item_id
-
-        response = auth_session.delete(f"{BASE_URL}/api/v1/items/{item_id}")
-        assert response.status_code == 200, "Ошибка удаления"
+    def test_create_item(self, auth_session, item_data):
+        response = ApiClass.post_create(auth_session, item_data)
 
     def test_get_items(self, auth_session, item_data):
-        response = auth_session.post(f"{BASE_URL}/api/v1/items/", json=item_data)
-        assert response.status_code in (200, 201), f"Response: {response.status_code}, {response.text}"
-
-        response = auth_session.get(f"{BASE_URL}/api/v1/items/")
-        assert response.status_code == 200, f"Response: {response.status_code}, {response.text}"
-
-        data = response.json()
-        assert "data" in data, "Response missing 'data' key"
-        assert isinstance(data["data"], list), "'data' is not a list"
-        assert isinstance(data.get("count"), int), "'count' should be integer"
+        response = ApiClass.get_items(auth_session)
 
     def test_put_items(self, auth_session, upd_item_data, item_data):
         response = auth_session.post(f"{BASE_URL}/api/v1/items/", json=item_data)

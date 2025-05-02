@@ -1,7 +1,8 @@
 import pytest
 import requests
 from faker import Faker
-from src.config.constant import BASE_URL, AUTH_HEADERS, AUTH_DATA, API_HEADERS
+from src.utils.helpers import AUTH_HEADERS, AUTH_DATA, API_HEADERS
+from src.tests.constant import BASE_URL
 
 
 @pytest.fixture(scope="session")
