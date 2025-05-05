@@ -28,6 +28,19 @@ def item_data():
         "description": fake.sentence(nb_words=10)
     }
 
+@pytest.fixture
+def test_item(auth_session, item_data):
+    response = auth_session.post(f"{BASE_URL}/api/v1/items/", json=item_data)
+    assert response.status_code in (200, 201), f"Item creation failed: {response.text}"
+
+    item_id = response.json().get("id")
+    assert item_id, "Item ID not found in response"
+
+    yield item_id  # Тест использует этот ID
+
+    # После теста удаляем item
+    auth_session.delete(f"{BASE_URL}/api/v1/items/{item_id}")
+
 @pytest.fixture()
 def upd_item_data():
     return {

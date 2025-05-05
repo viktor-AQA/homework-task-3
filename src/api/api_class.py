@@ -24,12 +24,16 @@ class ApiClass:
         assert len(items) > 0, "Список items пуст"
         # return response  # Возвращаем объект ответа
 
-    def put_items(self, post_create, upd_item_data, item_id):
-        response = post_create.put(f"{BASE_URL}/api/v1/items/{item_id}", json=upd_item_data)
+    @staticmethod
+    def put_items(auth_session, upd_item_data, test_item):
+        item_id = test_item
+        response = auth_session.put(f"{BASE_URL}/api/v1/items/{item_id}", json=upd_item_data)
 
         assert response.status_code == 200, "Введенные данные некорректны"
         assert response.json()["description"] == upd_item_data["description"], "Обновление не прошло"
         assert response.json()["title"] == upd_item_data["title"], "Обновление не прошло"
+
+        return response
 
     def delete_items(self, post_create, item_id):
         response = post_create.delete(f"{BASE_URL}/api/v1/items/{item_id}")
