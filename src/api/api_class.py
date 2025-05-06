@@ -1,5 +1,6 @@
 from src.tests.constant import BASE_URL
 
+
 class ApiClass:
     @staticmethod
     def post_create(auth_session, item_data):
@@ -20,9 +21,8 @@ class ApiClass:
         response = auth_session.get(f"{BASE_URL}/api/v1/items/")
 
         assert response.status_code == 200, f"Ошибка: {response.text}"
-        items = response.json()  # Получаем список items в формате JSON
+        items = response.json()
         assert len(items) > 0, "Список items пуст"
-        # return response  # Возвращаем объект ответа
 
     @staticmethod
     def put_items(auth_session, upd_item_data, test_item):
@@ -35,6 +35,8 @@ class ApiClass:
 
         return response
 
-    def delete_items(self, post_create, item_id):
-        response = post_create.delete(f"{BASE_URL}/api/v1/items/{item_id}")
+    @staticmethod
+    def delete_items(auth_session, test_item):
+        item_id = test_item
+        response = auth_session.delete(f"{BASE_URL}/api/v1/items/{item_id}")
         assert response.status_code == 200, "Запись не удалена"

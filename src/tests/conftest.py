@@ -36,9 +36,8 @@ def test_item(auth_session, item_data):
     item_id = response.json().get("id")
     assert item_id, "Item ID not found in response"
 
-    yield item_id  # Тест использует этот ID
+    yield item_id
 
-    # После теста удаляем item
     auth_session.delete(f"{BASE_URL}/api/v1/items/{item_id}")
 
 @pytest.fixture()
